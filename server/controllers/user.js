@@ -7,7 +7,7 @@ import User from '../models/user.js';
 export const signUp = async (req, res) => {
   const { email, password, firstName, lastName, confirmPassword } = req.body;
   try {
-    const existingUser = User.findOne({ email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(404).json({ message: 'User already exists.' });
     }
