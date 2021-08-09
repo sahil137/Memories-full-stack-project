@@ -15,15 +15,34 @@ import useStyles from './styles';
 import Input from './Input';
 import Icon from './Icon';
 import { AUTH } from '../../actions/actionTypes';
+import { signUp, signIn } from '../../actions/auth';
 
-export const Auth = () => {
+const initialState = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+};
+const Auth = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
   const [showPassword, setShowPassword] = useState(false); // to show/hide password
   const [isSignUp, setIsSignUp] = useState(false); // to switch isSign up and show sign up or sign in form
-  const handleSubmit = () => {};
-  const handleChange = () => {};
+  const [formData, setFormData] = useState(initialState);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // console.log(formData);
+    if (isSignUp) {
+      dispatch(signUp(formData, history));
+    } else {
+      dispatch(signIn(formData, history));
+    }
+  };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
   const handleShowPassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
