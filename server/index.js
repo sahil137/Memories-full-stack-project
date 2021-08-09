@@ -12,9 +12,9 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/', indexRoute);
-app.get('/', (req, res) => {
-  res.send('Hello and Welcome');
-});
+// app.get('/', (req, res) => {
+//   res.send('Hello and Welcome');
+// });
 const PORT = process.env.PORT || 5000;
 // Mongodb connection
 mongoose
