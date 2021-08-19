@@ -7,14 +7,14 @@ import indexRoute from './routes/index.js';
 const app = express();
 dotenv.config();
 
-app.use(express.urlencoded());
-app.use(express.json());
+app.use(express.urlencoded({ limit: '30mb', extended: true }));
+app.use(express.json({ limit: '30mb', extended: true }));
 app.use(cors());
 
 app.use('/', indexRoute);
-// app.get('/', (req, res) => {
-//   res.send('Hello and Welcome');
-// });
+app.get('/', (req, res) => {
+  res.send('Hello and Welcome');
+});
 const PORT = process.env.PORT || 5000;
 // Mongodb connection
 mongoose

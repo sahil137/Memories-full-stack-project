@@ -17,6 +17,7 @@ export const Navbar = () => {
     // JWT..
     setUser(JSON.parse(localStorage.getItem('profile')));
   }, [location]);
+
   const handleLogOut = () => {
     dispatch({ type: LOGOUT });
     history.push('/');

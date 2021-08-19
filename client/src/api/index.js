@@ -2,6 +2,16 @@ import axios from 'axios';
 
 const ROOT_URL = axios.create({ baseURL: 'http://localhost:5000' });
 
+ROOT_URL.interceptors.request.use((req) => {
+  // adding token to each request so that the backend can verify if the user is logged in
+  if (localStorage.getItem('profile')) {
+    req.headers.authorization = `Bearer ${
+      JSON.parse(localStorage.getItem('profile')).token
+    }`;
+  }
+  return req;
+});
+
 export const fetchPosts = () => ROOT_URL.get('/posts');
 export const createPost = (newPost) => ROOT_URL.post('/posts', newPost);
 export const updatePost = (id, updatedPost) =>
