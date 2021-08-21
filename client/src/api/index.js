@@ -13,6 +13,12 @@ ROOT_URL.interceptors.request.use((req) => {
 });
 
 export const fetchPosts = () => ROOT_URL.get('/posts');
+export const fetchPostsBySearch = (searchQuery) =>
+  ROOT_URL.get(
+    `/posts/search?searchQuery=${searchQuery.searchTerm || 'none'}&tags=${
+      searchQuery.tags
+    }`
+  );
 export const createPost = (newPost) => ROOT_URL.post('/posts', newPost);
 export const updatePost = (id, updatedPost) =>
   ROOT_URL.patch(`/posts/${id}`, updatedPost);

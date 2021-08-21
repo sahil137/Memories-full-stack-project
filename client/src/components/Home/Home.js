@@ -13,7 +13,7 @@ import { useHistory, useLocation } from 'react-router';
 import ChipInput from 'material-ui-chip-input';
 
 import Pagination from '../Pagination/Pagination';
-import { getPosts } from '../../actions/posts';
+import { getPosts, getPostsBySearch } from '../../actions/posts';
 import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
 import useStyles from './styles';
@@ -25,6 +25,8 @@ function useQuery() {
 
 export const Home = () => {
   const [currentId, setCurrentId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [tags, setTags] = useState([]);
   const dispatch = useDispatch();
   const query = useQuery();
   const history = useHistory();
@@ -35,6 +37,33 @@ export const Home = () => {
   useEffect(() => {
     dispatch(getPosts());
   }, [currentId, dispatch]);
+
+  const handleKeyPress = (e) => {
+    if (e.keyCode === 13) {
+      // key code 13 is for enter
+      handleSearchPosts();
+    }
+  };
+
+  const handleAdd = (tag) => setTags([...tags, tag]);
+
+  const handleDelete = (tagToDelete) =>
+    setTags(tags.filter((tag) => tag !== tagToDelete));
+
+  const handleSearchPosts = () => {
+    if (searchTerm.trim() || tags) {
+      // dispatch fetch serach posts
+      dispatch(getPostsBySearch({ searchTerm, tags: tags.join(',') }));
+      history.push(
+        `/posts/search?searchQuery=${searchTerm || 'none'}&tags=${tags.join(
+          ','
+        )}`
+      );
+    } else {
+      history.push('/');
+    }
+  };
+
   return (
     <Grow in>
       <Container maxWidth="xl">
@@ -59,9 +88,26 @@ export const Home = () => {
                 variant="outlined"
                 label="Search Memories"
                 fullWidth
-                value="TEST"
-                onChange={() => {}}
+                onKeyPress={handleKeyPress}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
+              <ChipInput
+                style={{ margin: '10px 0' }}
+                value={tags}
+                onAdd={handleAdd}
+                onDelete={handleDelete}
+                label="Search Tags"
+                variant="outlined"
+              />
+              <Button
+                onClick={handleSearchPosts}
+                className={classes.searchButton}
+                color="primary"
+                variant="contained"
+              >
+                Search
+              </Button>
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
             <Paper elevation={6}>
