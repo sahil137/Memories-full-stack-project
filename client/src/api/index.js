@@ -19,6 +19,7 @@ export const fetchPostsBySearch = (searchQuery) =>
       searchQuery.tags
     }`
   );
+export const fetchPost = (id) => ROOT_URL.get(`/posts/${id}`);
 export const createPost = (newPost) => ROOT_URL.post('/posts', newPost);
 export const updatePost = (id, updatedPost) =>
   ROOT_URL.patch(`/posts/${id}`, updatedPost);

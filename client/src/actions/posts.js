@@ -8,6 +8,7 @@ import {
   FETCH_BY_SEARCH,
   START_LOADING,
   END_LOADING,
+  FETCH_POST,
 } from './actionTypes';
 // Action creators
 
@@ -37,6 +38,22 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     dispatch({ type: END_LOADING });
   } catch (error) {
     console.log('Errror:', error);
+  }
+};
+
+// for fetching a single post in recommended section
+export const getPost = (id) => async (dispatch) => {
+  try {
+    // start loading before fetching posts
+    dispatch({ type: START_LOADING });
+
+    const { data } = await api.fetchPost(id);
+    dispatch({ type: FETCH_POST, payload: data });
+
+    dispatch({ type: END_LOADING });
+    // end loading after fetching the posts
+  } catch (error) {
+    console.log(error);
   }
 };
 
