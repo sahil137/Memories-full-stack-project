@@ -6,13 +6,21 @@ import {
   DELETE,
   LIKE,
   FETCH_BY_SEARCH,
-} from '../actions/actionTypes';
+  START_LOADING,
+  END_LOADING,
+} from './actionTypes';
 // Action creators
 
 export const getPosts = (page) => async (dispatch) => {
   try {
+    // start loading before fetching posts
+    dispatch({ type: START_LOADING });
+
     const { data } = await api.fetchPosts(page);
     dispatch({ type: FETCH_ALL, payload: data });
+
+    dispatch({ type: END_LOADING });
+    // end loading after fetching the posts
   } catch (error) {
     console.log(error);
   }
@@ -20,11 +28,13 @@ export const getPosts = (page) => async (dispatch) => {
 
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const {
       data: { data },
     } = await api.fetchPostsBySearch(searchQuery);
 
     dispatch({ type: FETCH_BY_SEARCH, payload: data });
+    dispatch({ type: END_LOADING });
   } catch (error) {
     console.log('Errror:', error);
   }
