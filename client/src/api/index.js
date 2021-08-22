@@ -12,7 +12,7 @@ ROOT_URL.interceptors.request.use((req) => {
   return req;
 });
 
-export const fetchPosts = () => ROOT_URL.get('/posts');
+export const fetchPosts = (page) => ROOT_URL.get(`/posts?page=${page}`);
 export const fetchPostsBySearch = (searchQuery) =>
   ROOT_URL.get(
     `/posts/search?searchQuery=${searchQuery.searchTerm || 'none'}&tags=${
