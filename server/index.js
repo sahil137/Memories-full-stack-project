@@ -13,7 +13,7 @@ app.use(cors());
 
 app.use('/', indexRoute);
 app.get('/', (req, res) => {
-  res.send('Hello and Welcome');
+  res.send('App is running');
 });
 const PORT = process.env.PORT || 5000;
 // Mongodb connection
