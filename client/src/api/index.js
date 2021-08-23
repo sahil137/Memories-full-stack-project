@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const ROOT_URL = axios.create({ baseURL: 'http://localhost:5000' });
+const ROOT_URL = axios.create({
+  baseURL: 'https://full-stack-project-memories.herokuapp.com/',
+});
+// const ROOT_URL = axios.create({ baseURL: 'http://localhost:5000' });
 
 ROOT_URL.interceptors.request.use((req) => {
   // adding token to each request so that the backend can verify if the user is logged in
